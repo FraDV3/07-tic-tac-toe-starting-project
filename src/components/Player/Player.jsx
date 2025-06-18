@@ -1,11 +1,15 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, isActive }) {
+export default function Player({ initialName, symbol, isActive, onChangeName }) {
   const [playerName, setPlayerName] = useState(initialName);
   const [isEditing, setIsEditing] = useState(false);
 
   function handleEdit() {
     setIsEditing((isEditing) => !isEditing);
+    
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
   }
 
   function handleChange(event) {
@@ -21,6 +25,8 @@ export default function Player({ initialName, symbol, isActive }) {
             required
             value={playerName}
             onChange={handleChange}
+            autoFocus
+            onFocus={(e) => e.target.select()}
           />
         ) : (
           <span className="player-name">{playerName}</span>
